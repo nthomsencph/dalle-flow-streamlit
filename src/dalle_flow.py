@@ -55,6 +55,7 @@ def run_qr_flow(img_bytes):
 
 
 def request_diffusion(server_url, fav, num_images=9, skip_rate=0.8):
+
     diffused = fav.post(
         f"{server_url}",
         parameters={"skip_rate": skip_rate, "num_images": num_images},
@@ -70,10 +71,13 @@ def request_generation(server_url, prompt, num_images=9):
         .post(server_url, parameters={"num_images": num_images})
         .matches
     )
+    # print(da)
+
     return da, return_image_sprites(da)
 
 
 def request_resolution(server_url, fav):
+
     doc = fav.post(f"{server_url}/upscale", target_executor="upscaler")
     doc.load_uri_to_image_tensor()  # load the data URI to a tensor
     return doc, Image.fromarray(
